@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional CV Builder</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uW/jIe0/0L66o7kG/D9C/I4C+3g7I2p849tH5K/2uK/V+I61JzR4j+V3Qo5t5+G+F8l5A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        
+        }
+
+        /* Custom scrollbar for form area */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #9ca3af;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+        /* Style for the CV preview */
+        #cv-preview {
+            line-height: 1.5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive styling for the CV preview */
+        @media (max-width: 768px) {
+            #cv-preview {
+                width: 100%;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto">
+        <!-- Form Section -->
+        <div class="w-full lg:w-1/2 bg-white rounded-2xl shadow-lg p-6 md:p-8 custom-scrollbar overflow-y-auto max-h-screen">
+            <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6"> My Cameroon CV Builder</h1>
+            <p class="text-center text-gray-600 mb-8">Fill out the form to create your professional CV.</p>
+
+            <!-- Personal Details -->
+            <div class="mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">Personal Details</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" id="name" placeholder="Full Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="title" placeholder="Job Title" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="email" id="email" placeholder="Email" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="tel" id="phone" placeholder="Phone Number" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="url" id="linkedin" placeholder="LinkedIn Profile URL" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+        </div>
+
+            <!-- Summary -->
+            <div class="mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">Professional Summary</h2>
+                <textarea id="summary" placeholder="Write a brief professional summary about yourself. Highlight your key skills and experience." rows="5" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+            </div>
+
+            <!-- Work Experience -->
+            <div class="mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">Work Experience</h2>
+                <div id="work-experience-container" class="space-y-4">
+                    <!-- Dynamic work experience blocks will be added here -->
+                </div>
+                <button id="add-work-experience" class="mt-4 w-full bg-indigo-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-600 transition duration-300 shadow-md">
+                    Add Work Experience
+                </button>
+            </div>
+
+            <!-- Education -->
+            <div class="mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">Education</h2>
+                <div id="education-container" class="space-y-4">
+                    <!-- Dynamic education blocks will be added here -->
+                </div>
+                <button id="add-education" class="mt-4 w-full bg-indigo-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-600 transition duration-300 shadow-md">
+                    Add Education
+                </button>
+            </div>
+
+            <!-- Skills -->
+            <div class="mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">Skills</h2>
+                <textarea id="skills" placeholder="List your key skills, separated by commas (e.g., JavaScript, Python, Project Management)." rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+            </div>
+            
+            <!-- Download Button -->
+            <button id="download-pdf" class="w-full bg-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-xl">
+                Download as PDF
+            </button>
+        </div>
+
+        <!-- CV Preview Section -->
+        <div class="w-full lg:w-1/2 flex justify-center">
+            <div id="cv-preview" class="w-full max-w-[8.5in] aspect-[8.5/11] bg-white p-6 md:p-10 lg:p-12 text-gray-800 rounded-2xl overflow-auto">
+                <!-- Live preview will be generated here by JavaScript -->
+                <div class="text-center mb-6">
+                    <h1 id="preview-name" class="text-3xl md:text-4xl font-bold text-indigo-700">Your Full Name</h1>
+                    <p id="preview-title" class="text-xl font-medium text-gray-600 mt-1">Your Job Title</p>
+                    <div class="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-500">
+                        <span id="preview-email" class="flex items-center gap-1"><i class="fas fa-envelope text-indigo-500"></i>youremail@example.com</span>
+                        <span id="preview-phone" class="flex items-center gap-1"><i class="fas fa-phone text-indigo-500"></i>+237 6...</span>
+                        <a href="#" id="preview-linkedin" class="flex items-center gap-1 hover:text-indigo-600 transition-colors" target="_blank"><i class="fab fa-linkedin text-indigo-500"></i>LinkedIn Profile</a>
+                        <a href="#" id="preview-github" class="flex items-center gap-1 hover:text-indigo-600 transition-colors" target="_blank"><i class="fab fa-github text-indigo-500"></i> Github</a>
+                    </div>
+                </div>
+
+                <div class="my-6">
+                    <h2 class="text-lg md:text-xl font-semibold text-indigo-700 border-b-2 border-indigo-300 pb-1 mb-2">Professional Summary</h2>
+                    <p id="preview-summary" class="text-gray-700 text-justify">
+                        A brief summary of your skills, experience, and career goals. This section should grab the attention of a recruiter and highlight why you are a great candidate for the job.
+                    </p>
+                </div>
+
+                <div class="my-6">
+                    <h2 class="text-lg md:text-xl font-semibold text-indigo-700 border-b-2 border-indigo-300 pb-1 mb-2">Work Experience</h2>
+                    <div id="preview-work-experience" class="space-y-4">
+                        <div class="work-entry">
+                            <div class="flex justify-between items-baseline">
+                                <h3 class="font-bold text-gray-800">Job Title</h3>
+                                <span class="text-sm text-gray-500">Start Date - End Date</span>
+                            </div>
+                            <p class="font-medium text-gray-600">Company Name</p>
+                            <ul class="list-disc list-inside text-gray-700 mt-1 pl-4">
+                                <li>Responsibility 1: Describe your key achievements and duties here.</li>
+                                <li>Responsibility 2: Use action verbs and quantify results whenever possible.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-6">
+                    <h2 class="text-lg md:text-xl font-semibold text-indigo-700 border-b-2 border-indigo-300 pb-1 mb-2">Education</h2>
+                    <div id="preview-education" class="space-y-2">
+                        <!-- Example education to be replaced -->
+                        <div class="education-entry">
+                            <div class="flex justify-between items-baseline">
+                                <h3 class="font-bold text-gray-800">Degree Name</h3>
+                                <span class="text-sm text-gray-500">Start Year - End Year</span>
+                            </div>
+                            <p class="font-medium text-gray-600">Institution Name</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-6">
+                    <h2 class="text-lg md:text-xl font-semibold text-indigo-700 border-b-2 border-indigo-300 pb-1 mb-2">Skills</h2>
+                    <p id="preview-skills" class="text-gray-700">
+                        List of your skills, separated by commas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Use window.jsPDF from the CDN link
+        const { jsPDF } = window.jspdf;
+
+        // Utility function to safely get an element
+        const getElement = (id) => document.getElementById(id);
+
+        // Form elements
+        const formInputs = [
+            'name', 'title', 'email', 'phone', 'linkedin', 'summary', 'skills'
+        ];
+        
+        // Preview elements
+        const previewElements = {
+            'name': 'preview-name',
+            'title': 'preview-title',
+            'email': 'preview-email',
+            'phone': 'preview-phone',
+            'linkedin': 'preview-linkedin',
+            'summary': 'preview-summary',
+            'skills': 'preview-skills'
+        };
+
+        // Function to update the CV preview
+        function updateCV() {
+            // Update personal details and summary
+            formInputs.forEach(id => {
+                const inputElement = getElement(id);
+                if (inputElement) {
+                    const previewElement = getElement(previewElements[id]);
+                    if (previewElement) {
+                        if (id === 'name' || id === 'title') {
+                            previewElement.textContent = inputElement.value || previewElement.textContent;
+                        } else if (id === 'linkedin') {
+                            previewElement.href = inputElement.value || '#';
+                            previewElement.textContent = inputElement.value ? 'LinkedIn Profile' : 'LinkedIn Profile';
+                        } else if (id === 'email') {
+                            previewElement.innerHTML = `<i class="fas fa-envelope text-indigo-500"></i>${inputElement.value || previewElement.textContent}`;
+                        } else if (id === 'phone') {
+                             previewElement.innerHTML = `<i class="fas fa-phone text-indigo-500"></i>${inputElement.value || previewElement.textContent}`;
+                        } else {
+                            previewElement.textContent = inputElement.value || previewElement.textContent;
+                        }
+                    }
+                }
+            });
+
+            // Update skills list
+            const skillsInput = getElement('skills');
+            const previewSkills = getElement('preview-skills');
+            if (skillsInput && previewSkills) {
+                const skillsArray = skillsInput.value.split(',').map(s => s.trim()).filter(s => s);
+                previewSkills.innerHTML = '';
+                if (skillsArray.length > 0) {
+                    const listHtml = skillsArray.map(skill => `<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">${skill}</span>`).join(' ');
+                    previewSkills.innerHTML = listHtml;
+                } else {
+                    previewSkills.textContent = 'List of your skills, separated by commas.';
+                }
+            }
+
+            // Update work experience
+            const workContainer = getElement('work-experience-container');
+            const previewWork = getElement('preview-work-experience');
+            previewWork.innerHTML = ''; // Clear existing preview
+
+            workContainer.querySelectorAll('.work-entry-form').forEach(entry => {
+                const jobTitle = entry.querySelector('.job-title').value;
+                const company = entry.querySelector('.company').value;
+                const dates = entry.querySelector('.work-dates').value;
+                const responsibilities = entry.querySelector('.responsibilities').value;
+
+                if (jobTitle || company) {
+                    const responsibilitiesHtml = responsibilities.split('\n').map(resp => {
+                        const trimmed = resp.trim();
+                        return trimmed ? `<li>${trimmed}</li>` : '';
+                    }).join('');
+
+                    const html = `
+                        <div class="work-entry">
+                            <div class="flex justify-between items-baseline">
+                                <h3 class="font-bold text-gray-800">${jobTitle || 'Job Title'}</h3>
+                                <span class="text-sm text-gray-500">${dates || 'Dates'}</span>
+                            </div>
+                            <p class="font-medium text-gray-600">${company || 'Company Name'}</p>
+                            <ul class="list-disc list-inside text-gray-700 mt-1 pl-4">
+                                ${responsibilitiesHtml || '<li>Describe your key achievements and duties here.</li>'}
+                            </ul>
+                        </div>
+                    `;
+                    previewWork.innerHTML += html;
+                }
+            });
+
+            // Update education
+            const educationContainer = getElement('education-container');
+            const previewEducation = getElement('preview-education');
+            previewEducation.innerHTML = ''; // Clear existing preview
+
+            educationContainer.querySelectorAll('.education-entry-form').forEach(entry => {
+                const degree = entry.querySelector('.degree').value;
+                const institution = entry.querySelector('.institution').value;
+                const dates = entry.querySelector('.education-dates').value;
+
+                if (degree || institution) {
+                    const html = `
+                        <div class="education-entry">
+                            <div class="flex justify-between items-baseline">
+                                <h3 class="font-bold text-gray-800">${degree || 'Degree Name'}</h3>
+                                <span class="text-sm text-gray-500">${dates || 'Dates'}</span>
+                            </div>
+                            <p class="font-medium text-gray-600">${institution || 'Institution Name'}</p>
+                        </div>
+                    `;
+                    previewEducation.innerHTML += html;
+                }
+            });
+        }
+
+        // Add event listeners to all form inputs
+        formInputs.forEach(id => {
+            const element = getElement(id);
+            if (element) {
+                element.addEventListener('input', updateCV);
+            }
+        });
+
+        // Function to add a new work experience entry form
+        function addWorkExperienceForm() {
+            const container = getElement('work-experience-container');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'work-entry-form border border-gray-200 rounded-lg p-4 bg-gray-50 space-y-2';
+            newEntry.innerHTML = `
+                <input type="text" class="job-title w-full p-2 border border-gray-300 rounded-lg" placeholder="Job Title">
+                <input type="text" class="company w-full p-2 border border-gray-300 rounded-lg" placeholder="Company">
+                <input type="text" class="work-dates w-full p-2 border border-gray-300 rounded-lg" placeholder="Start Date - End Date">
+                <textarea class="responsibilities w-full p-2 border border-gray-300 rounded-lg" rows="3" placeholder="Key responsibilities and achievements (one per line)"></textarea>
+                <button type="button" class="remove-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600">Remove</button>
+            `;
+            container.appendChild(newEntry);
+
+            // Add input event listeners to the new elements
+            const inputs = newEntry.querySelectorAll('input, textarea');
+            inputs.forEach(input => input.addEventListener('input', updateCV));
+            
+            // Add remove button functionality
+            newEntry.querySelector('.remove-btn').addEventListener('click', () => {
+                newEntry.remove();
+                updateCV(); // Update the preview after removing
+            });
+
+            updateCV(); // Initial update after adding a new form
+        }
+
+        // Function to add a new education entry form
+        function addEducationForm() {
+            const container = getElement('education-container');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'education-entry-form border border-gray-200 rounded-lg p-4 bg-gray-50 space-y-2';
+            newEntry.innerHTML = `
+                <input type="text" class="degree w-full p-2 border border-gray-300 rounded-lg" placeholder="Degree/Certificate">
+                <input type="text" class="institution w-full p-2 border border-gray-300 rounded-lg" placeholder="Institution">
+                <input type="text" class="education-dates w-full p-2 border border-gray-300 rounded-lg" placeholder="Start Year - End Year">
+                <button type="button" class="remove-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600">Remove</button>
+            `;
+            container.appendChild(newEntry);
+
+            // Add input event listeners to the new elements
+            const inputs = newEntry.querySelectorAll('input, textarea');
+            inputs.forEach(input => input.addEventListener('input', updateCV));
+
+            // Add remove button functionality
+            newEntry.querySelector('.remove-btn').addEventListener('click', () => {
+                newEntry.remove();
+                updateCV(); // Update the preview after removing
+            });
+
+            updateCV(); // Initial update after adding a new form
+        }
+
+        // Add initial form entries
+        addWorkExperienceForm();
+        addEducationForm();
+
+        // Add event listeners for the "add" buttons
+        getElement('add-work-experience').addEventListener('click', addWorkExperienceForm);
+        getElement('add-education').addEventListener('click', addEducationForm);
+
+        // PDF download function
+        getElement('download-pdf').addEventListener('click', () => {
+            const element = getElement('cv-preview');
+            const downloadBtn = getElement('download-pdf');
+            
+            downloadBtn.disabled = true;
+            downloadBtn.textContent = 'Generating PDF...';
+
+            // Use the HTML2PDF library to convert the element to a PDF
+            // Awaiting for the library to be loaded from the CDN
+            if (window.html2pdf) {
+                window.html2pdf().from(element).save('my-cv.pdf');
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Download as PDF';
+            } else {
+                // If html2pdf is not available, fall back to jsPDF
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'pt',
+                    format: 'letter'
+                });
+
+                doc.html(element, {
+                    callback: (doc) => {
+                        doc.save('my-cv.pdf');
+                        downloadBtn.disabled = false;
+                        downloadBtn.textContent = 'Download as PDF';
+                    },
+                    x: 10,
+                    y: 10,
+                    width: 590, // target width in the document
+                    windowWidth: 794 // element width in the browser
+                });
+            }
+        });
+
+        // Initialize the preview with default content
+        window.addEventListener('load', () => {
+            updateCV();
+        });
+    </script>
+    
